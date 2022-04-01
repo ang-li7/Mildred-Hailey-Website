@@ -1,15 +1,25 @@
 import React from "react";
 import "./NavBar.css";
+import { Link } from "@reach/router";
 
 const NavBar = () => {
   return (
     <div className="NavBar-container">
       <div className="NavBar-linkContainer">
-        <h1>Mildred Hailey</h1>
-        <h1>Events</h1>
-        <h1>Updates</h1>
-        <h1>About</h1>
-        <h1>Partner Login</h1>
+        <Link to="/" className="NavBar-link">
+          Mildred Hailey
+        </Link>
+        <Link to="/events" className="NavBar-link">
+          Events
+        </Link>
+        <Link to="/updates" className="NavBar-link">
+          Updates
+        </Link>
+        <Link to="/about" className="NavBar-link">
+          {" "}
+          About
+        </Link>
+        <h1 className="NavBar-link">Partner Login</h1>
       </div>
     </div>
   );
