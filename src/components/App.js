@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
 import Updates from "./pages/Updates";
+import Footer from "./modules/Footer";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Updates path="/updates" />
         <About path="/about" />
       </Router>
+      <Footer />
     </>
   );
 };
