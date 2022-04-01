@@ -1,9 +1,10 @@
 import React from "react";
+import Preview from "../modules/Preview";
 
 const Events = () => {
   return (
     <div>
-      <h1>This is the events page</h1>
+      <Preview type="Events" />
     </div>
   );
 };
