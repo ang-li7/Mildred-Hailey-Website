@@ -1,16 +1,23 @@
 import React from "react";
 import "./App.css";
 import NavBar from "./modules/NavBar";
-import Preview from "./modules/Preview";
+
+import { Router } from "@reach/router";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Events from "./pages/Events";
+import Updates from "./pages/Updates";
 
 const App = () => {
   return (
     <>
       <NavBar />
-      <div className="App-previewContainer">
-        <Preview type="Events" />
-        <Preview type="Updates" />
-      </div>
+      <Router>
+        <Home path="/" />
+        <Events path="/events" />
+        <Updates path="/updates" />
+        <About path="/about" />
+      </Router>
     </>
   );
 };
