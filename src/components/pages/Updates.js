@@ -1,9 +1,10 @@
 import React from "react";
+import Preview from "../modules/Preview";
 
 const Updates = () => {
   return (
     <div>
-      <h1>This is the updates page</h1>
+      <Preview type="Updates" />
     </div>
   );
 };
