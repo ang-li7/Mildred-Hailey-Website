@@ -16,10 +16,11 @@ const NavBar = () => {
           Updates
         </Link>
         <Link to="/about" className="NavBar-link">
-          {" "}
           About
         </Link>
-        <h1 className="NavBar-link">Partner Login</h1>
+        <Link to="/login" className="NavBar-link">
+          Login
+        </Link>
       </div>
     </div>
   );
