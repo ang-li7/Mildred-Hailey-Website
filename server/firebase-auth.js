@@ -1,4 +1,5 @@
-import firebase from "firebase/app";
+import { initializeApp } from "firebase/app";
+
 require("dotenv").config();
 
 const firebaseConfig = {
@@ -11,5 +12,4 @@ const firebaseConfig = {
   measurementId: "G-52C2WTC8PY",
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const analytics = firebase.getAnalytics(app);
+const app = initializeApp(firebaseConfig);

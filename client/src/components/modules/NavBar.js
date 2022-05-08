@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./NavBar.css";
 import { Link } from "@reach/router";
+import { UserContext } from "../../UserContext";
 
 const NavBar = () => {
+  const { email, verified, handleLogin } = useContext(UserContext);
   return (
     <div className="NavBar-container">
       <div className="NavBar-linkContainer">
@@ -18,9 +20,13 @@ const NavBar = () => {
         <Link to="/about" className="NavBar-link">
           About
         </Link>
-        <Link to="/login" className="NavBar-link">
-          Login
-        </Link>
+        {verified ? (
+          <p>Logged in</p>
+        ) : (
+          <button onClick={handleLogin} className="NavBar-link">
+            Login
+          </button>
+        )}
       </div>
     </div>
   );
