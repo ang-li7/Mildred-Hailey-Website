@@ -7,12 +7,6 @@
   top: 0;
 }
 
-.NavBar-container:hover {
-  opacity: 1;
-  transform: scaleY(1.2);
-  transition: all 0.3s ease;
-}
-
 .NavBar-title {
   color: white;
   font-size: 3.2vw;
@@ -26,16 +20,16 @@
 
 .NavBar-linkContainer {
   margin-left: 0.25vw;
-  font-size: 2.1vw;
+  font-size: 1.5vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .NavBar-logo {
-  width: 3vw;
-  margin-right: 10px;
+  width: 6vw;
 }
+
 .NavBar-link,
 .NavBar-link:visited {
   color: black;
@@ -48,6 +42,6 @@
 
 .NavBar-link:hover {
   opacity: 1;
-  transform: scale(1.03);
+  /* transform: scale(1.03); */
   transition: all 0.3s ease;
 }
