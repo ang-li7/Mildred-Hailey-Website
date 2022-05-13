@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.css";
 import NavBar from "./modules/NavBar";
 
@@ -7,26 +7,13 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Events from "./pages/Events";
 import Updates from "./pages/Updates";
-import Login from "./pages/Login";
 import Footer from "./modules/Footer";
-import { signInWithGoogle, AuthStateProvider } from "../FireBase";
-import { UserContext } from "../UserContext.js";
+import { AuthStateProvider } from "../FireBase";
 
 const App = () => {
-  // const [email, setEmail] = useState("");
-  // const [verified, setVerified] = useState(false);
-
-  // const handleLogin = () => {
-  //   signInWithGoogle().then((result) => {
-  //     setEmail(result.user.email);
-  //     setVerified(result.user.emailVerified);
-  //   });
-  // };
-
   return (
     <>
       <AuthStateProvider>
-        {/* <NavBar email={email} verified={verified} googleLogin={handleLogin} /> */}
         <NavBar />
         <Router>
           <Home path="/" />

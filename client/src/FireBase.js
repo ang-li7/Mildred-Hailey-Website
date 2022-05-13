@@ -26,8 +26,8 @@ const provider = new GoogleAuthProvider();
 export const signInWithGoogle = () => signInWithPopup(auth, provider);
 
 export const AuthStateProvider = ({ children }) => {
-  const [email, setEmail] = useState("hi");
-  const [verified, setVerified] = useState(false);
+  const [email, setEmail] = useState(null);
+  const [verified, setVerified] = useState(null);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
