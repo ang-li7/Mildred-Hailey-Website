@@ -4,16 +4,20 @@ const Admin = require("./models/Admin");
 const Event = require("./models/Event");
 const Update = require("./models/Update");
 
-router.get("/", (req, res) => {
-  res.json({ users: ["userOne", "userTwo", "userThree"] });
-});
-
 router.get("/updates", (req, res) => {
-  res.json({ users: ["userOne", "userTwo", "userThree"] });
+  Update.find()
+    .then((updates) => {
+      res.send(updates.reverse());
+    })
+    .catch((err) => console.log(err));
 });
 
 router.get("/events", (req, res) => {
-  res.json({ users: ["userOne", "userTwo", "userThree"] });
+  Event.find()
+    .then((events) => {
+      res.send(events.reverse());
+    })
+    .catch((err) => console.log(err));
 });
 
 router.get("/admins", (req, res) => {

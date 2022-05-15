@@ -29,6 +29,7 @@ const InputForm = ({ type }) => {
       setPosted(true);
     });
   };
+
   return (
     <div>
       <p>Input Form</p>
@@ -63,6 +64,7 @@ const InputForm = ({ type }) => {
       {/* <label for="photo">Photo</label>
       <input id="file" type="file" accept="image/*" onInput={handleFile} /> */}
       <button onClick={postInfo}>Submit</button>
+      {posted ? <p>Posted!</p> : null}
     </div>
   );
 };
