@@ -1,23 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../UserContext";
 
-const InputForm = () => {
+const InputForm = ({ type }) => {
+  const { email } = useContext(UserContext);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [photo, setPhoto] = useState("");
+  const [posted, setPosted] = useState(false);
 
   const handleChange = (event, setState) => {
     setState(event.target.value);
-    console.log(photo);
   };
 
-  //   const handleFile = (event) => {
-  //     console.log(document.getElementById("file").files);
-  //   };
-
-  const postInfo = () => {};
-
+  const postInfo = () => {
+    const data = {
+      title: title,
+      date: date,
+      location: location,
+      description: description,
+      admin: email,
+    };
+    fetch(`/api/${type}`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: new Headers({ "Content-Type": "application/json" }),
+    }).then((res) => {
+      setPosted(true);
+    });
+  };
   return (
     <div>
       <p>Input Form</p>

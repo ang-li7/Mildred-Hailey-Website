@@ -8,7 +8,7 @@ const Preview = ({ type }) => {
   return (
     <div className="Preview-container">
       <h1>{type}</h1>
-      <InputForm />
+      {email && verified ? <InputForm type={type} /> : null}
     </div>
   );
 };

@@ -12,7 +12,7 @@ mongoose.connect(mongoConnectionURL, () => {
 });
 
 // Allows post requests to be read
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Makes sure that POST request is made by an admin

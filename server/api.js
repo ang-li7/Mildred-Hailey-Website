@@ -22,6 +22,32 @@ router.get("/admins", (req, res) => {
   });
 });
 
+router.post("/events", (req, res) => {
+  Event.create({
+    title: req.body.title,
+    date: req.body.date,
+    location: req.body.location,
+    description: req.body.description,
+    email: req.body.admin,
+  })
+    .then((event) => {
+      res.send(event);
+    })
+    .catch((err) => console.log(err));
+});
+
+router.post("/updates", (req, res) => {
+  Update.create({
+    title: req.body.title,
+    description: req.body.description,
+    email: req.body.admin,
+  })
+    .then((update) => {
+      res.send(update);
+    })
+    .catch((err) => console.log(err));
+});
+
 router.post("/admin", (req, res) => {
   Admin.exists({ email: req.body.new_admin }) // first check if new admin is already an admin
     .then((bool) => {
