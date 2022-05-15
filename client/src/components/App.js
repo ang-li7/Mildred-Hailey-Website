@@ -8,6 +8,7 @@ import About from "./pages/About";
 import Events from "./pages/Events";
 import Updates from "./pages/Updates";
 import Contact from "./pages/Contact";
+import Admin from "./pages/Admin";
 import Footer from "./modules/Footer";
 import { AuthStateProvider } from "../FireBase";
 
@@ -22,6 +23,7 @@ const App = () => {
           <Updates path="/updates" />
           <About path="/about" />
           <Contact path="/contact" />
+          <Admin path="/admin" />
         </Router>
         <Footer />
       </AuthStateProvider>

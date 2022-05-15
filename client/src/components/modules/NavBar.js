@@ -5,7 +5,8 @@ import { UserContext } from "../../UserContext";
 import logo from "../../logo.png";
 
 const NavBar = () => {
-  const { email, verified, handleLogin } = useContext(UserContext);
+  const { email, verified, handleLogin, handleLogout } =
+    useContext(UserContext);
   return (
     <div className="NavBar-container">
       <div className="NavBar-linkContainer">
@@ -25,9 +26,15 @@ const NavBar = () => {
         <Link to="/contact" className="NavBar-link">
           Contact Us
         </Link>
-
         {verified ? (
-          <p>Logged in</p>
+          <Link to="/admin" className="NavBar-link">
+            Admin Page
+          </Link>
+        ) : null}
+        {verified ? (
+          <button onClick={handleLogout} className="NavBar-link">
+            Logout
+          </button>
         ) : (
           <button onClick={handleLogin} className="NavBar-link">
             Login

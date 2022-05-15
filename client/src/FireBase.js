@@ -4,6 +4,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { UserContext } from "./UserContext";
 import { useEffect, useState } from "react";
@@ -27,24 +28,49 @@ export const signInWithGoogle = () => signInWithPopup(auth, provider);
 
 export const AuthStateProvider = ({ children }) => {
   const [email, setEmail] = useState(null);
-  const [verified, setVerified] = useState(null);
+  const [verified, setVerified] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      setEmail(user.email);
-      setVerified(user.emailVerified);
+      if (user) {
+        setEmail(user.email);
+        setVerified(user.emailVerified);
+      } else {
+        setEmail(null);
+        setVerified(false);
+      }
     });
   }, []);
 
   const handleLogin = () => {
     signInWithGoogle().then((result) => {
-      setEmail(result.user.email);
-      setVerified(result.user.emailVerified);
+      fetch("/api/admins").then((res) => {
+        res.json().then((res) => {
+          // only allow login if admin email
+          if (res.includes(result.user.email)) {
+            setEmail(result.user.email);
+            setVerified(result.user.emailVerified);
+          } else {
+            handleLogout().then((res) => {
+              alert("Email not authorized");
+            });
+          }
+        });
+      });
     });
   };
 
+  const handleLogout = async () => {
+    const res = await signOut(auth);
+    setEmail(null);
+    setVerified(false);
+    return res;
+  };
+
   return (
-    <UserContext.Provider value={{ email, verified, handleLogin }}>
+    <UserContext.Provider
+      value={{ email, verified, handleLogin, handleLogout }}
+    >
       {children}
     </UserContext.Provider>
   );
