@@ -4,18 +4,18 @@ const Admin = require("./models/Admin");
 const Event = require("./models/Event");
 const Update = require("./models/Update");
 
-router.get("/updates", (req, res) => {
-  Update.find()
-    .then((updates) => {
-      res.send(updates.reverse());
-    })
-    .catch((err) => console.log(err));
-});
-
 router.get("/events", (req, res) => {
   Event.find()
     .then((events) => {
       res.send(events.reverse());
+    })
+    .catch((err) => console.log(err));
+});
+
+router.get("/updates", (req, res) => {
+  Update.find()
+    .then((updates) => {
+      res.send(updates.reverse());
     })
     .catch((err) => console.log(err));
 });
