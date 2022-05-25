@@ -16,24 +16,23 @@ const NavBar = () => {
         </Navbar.Brand>
 
         <Nav className="me-auto">
-          <Nav.Link className="px-1" href="/">
+          <Link className="NavBar-link" to="/">
             Mildred C. Hailey Organization
-          </Nav.Link>
-
-          <Nav.Link className="px-5" href="/about">
+          </Link>
+          <Link className="NavBar-link" to="/about">
             About
-          </Nav.Link>
-          <Nav.Link className="px-5" href="/updates">
+          </Link>
+          <Link className="NavBar-link" to="/updates">
             Updates
-          </Nav.Link>
-          <Nav.Link className="px-5" href="/events">
+          </Link>
+          <Link className="NavBar-link" to="/events">
             Events
-          </Nav.Link>
+          </Link>
 
           {verified ? (
-            <Nav.Link className="px-5" href="/admin">
+            <Link className="NavBar-link" to="/admin">
               Admin Page
-            </Nav.Link>
+            </Link>
           ) : null}
         </Nav>
 

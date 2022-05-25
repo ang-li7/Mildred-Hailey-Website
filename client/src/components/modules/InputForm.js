@@ -1,71 +1,102 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../../UserContext";
+import DatePicker from "react-datepicker";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const InputForm = ({ type }) => {
   const { email } = useContext(UserContext);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
-  const [posted, setPosted] = useState(false);
+  const [photo, setPhoto] = useState(null);
 
   const handleChange = (event, setState) => {
     setState(event.target.value);
   };
 
-  const postInfo = () => {
-    const data = {
-      title: title,
-      date: date,
-      location: location,
-      description: description,
-      admin: email,
-    };
+  const postInfo = (event) => {
+    event.preventDefault();
+    const data = new FormData();
+    data.append("title", title);
+    data.append("startDate", startDate);
+    data.append("location", location);
+    data.append("description", description);
+    data.append("admin", email);
+    data.append("photo", photo);
     fetch(`/api/${type}`, {
       method: "POST",
-      body: JSON.stringify(data),
-      headers: new Headers({ "Content-Type": "application/json" }),
-    }).then((res) => {
-      setPosted(true);
+      body: data,
     });
   };
 
   return (
-    <div>
-      <p>Input Form</p>
-      <label for="title">Title</label>
-      <input
-        id="title"
-        onInput={(event) => {
-          handleChange(event, setTitle);
-        }}
-      />
-      <label for="date">Date and Time</label>
-      <input
-        id="date"
-        onInput={(event) => {
-          handleChange(event, setDate);
-        }}
-      />
-      <label for="location">Location</label>
-      <input
-        id="location"
-        onInput={(event) => {
-          handleChange(event, setLocation);
-        }}
-      />
-      <label for="desc">Description</label>
-      <textarea
-        id="desc"
-        onInput={(event) => {
-          handleChange(event, setDescription);
-        }}
-      />
-      {/* <label for="photo">Photo</label>
-      <input id="file" type="file" accept="image/*" onInput={handleFile} /> */}
-      <button onClick={postInfo}>Submit</button>
-      {posted ? <p>Posted!</p> : null}
-    </div>
+    <Container>
+      <Form>
+        <Row>
+          <Col xs={8}>
+            <Form.Group as={Col}>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                onInput={(event) => handleChange(event, setTitle)}
+              />
+              <Form.Label>Location</Form.Label>
+              <Form.Control
+                onInput={(event) => handleChange(event, setLocation)}
+              />
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                onInput={(event) => handleChange(event, setDescription)}
+              />
+              <hr />
+              <Form.Label>Picture</Form.Label>
+              <Form.Control
+                type="file"
+                onInput={(event) => setPhoto(event.target.files[0])}
+              />
+              <Button type="submit" onClick={postInfo}>
+                Submit
+              </Button>
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Label>Date and Time</Form.Label>
+            <Form.Control
+              onFocus={(event) => setShowCalendar(true)}
+              value={startDate.toLocaleString([], {
+                weekday: "long",
+                month: "numeric",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true,
+              })}
+            />
+            {showCalendar ? (
+              <DatePicker
+                inline
+                selected={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
+                  setShowCalendar(false);
+                }}
+                showTimeSelect
+                showTime={{ use12Hours: true, format: "hh:mm aa" }}
+                timeFormat="hh:mm aa"
+                timeIntervals={15}
+                timeCaption="Time"
+                dateFormat="MMMM d, yyyy h:mm aa"
+              />
+            ) : null}
+          </Col>
+        </Row>
+      </Form>
+    </Container>
   );
 };
 

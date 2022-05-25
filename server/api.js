@@ -1,8 +1,11 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 const Admin = require("./models/Admin");
 const Event = require("./models/Event");
 const Update = require("./models/Update");
+
+const upload = multer(); // use multer to parse multipart/form-data POST requests
 
 router.get("/events", (req, res) => {
   Event.find()
@@ -26,28 +29,40 @@ router.get("/admins", (req, res) => {
   });
 });
 
-router.post("/events", (req, res) => {
-  Event.create({
-    title: req.body.title,
-    date: req.body.date,
-    location: req.body.location,
-    description: req.body.description,
-    email: req.body.admin,
-  })
-    .then((event) => {
-      res.send(event);
+router.post("/events", upload.single("photo"), (req, res) => {
+  Admin.exists({ email: req.body.admin }) //verify admin is making request
+    .then((bool) => {
+      if (bool) {
+        Event.create({
+          title: req.body.title,
+          date: req.body.date,
+          location: req.body.location,
+          description: req.body.description,
+          email: req.body.admin,
+        }).then((event) => {
+          res.send(event);
+        });
+      } else {
+        res.status(401).send("Unauthorized request");
+      }
     })
     .catch((err) => console.log(err));
 });
 
-router.post("/updates", (req, res) => {
-  Update.create({
-    title: req.body.title,
-    description: req.body.description,
-    email: req.body.admin,
-  })
-    .then((update) => {
-      res.send(update);
+router.post("/updates", upload.single("photo"), (req, res) => {
+  Admin.exists({ email: req.body.admin }) //verify admin is making request
+    .then((bool) => {
+      if (bool) {
+        Update.create({
+          title: req.body.title,
+          description: req.body.description,
+          email: req.body.admin,
+        }).then((update) => {
+          res.send(update);
+        });
+      } else {
+        res.status(401).send("Unauthorized request");
+      }
     })
     .catch((err) => console.log(err));
 });

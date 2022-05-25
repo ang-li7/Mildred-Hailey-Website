@@ -6,29 +6,27 @@ const mongoose = require("mongoose");
 const mongoConnectionURL = process.env.MONGO_CONNECTION_URL;
 const api = require("./api");
 const Admin = require("./models/Admin");
+const multer = require("multer");
+const upload = multer();
 
 mongoose.connect(mongoConnectionURL, () => {
   console.log("Connected to Mongo");
 });
 
-// Allows post requests to be read
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
 // Makes sure that POST request is made by an admin
-app.use((req, res, next) => {
-  if (req.method === "POST") {
-    Admin.exists({ email: req.body.admin }).then((bool) => {
-      if (bool) {
-        next();
-      } else {
-        res.status(401).send("Unauthorized request");
-      }
-    });
-  } else {
-    next();
-  }
-});
+// app.use((req, res, next) => {
+//   if (req.method === "POST") {
+//     Admin.exists({ email: req.body.admin }).then((bool) => {
+//       if (bool) {
+//         next();
+//       } else {
+//         res.status(401).send("Unauthorized request");
+//       }
+//     });
+//   } else {
+//     next();
+//   }
+// });
 
 app.use("/api", api);
 
