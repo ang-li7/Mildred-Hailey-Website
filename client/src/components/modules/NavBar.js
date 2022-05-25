@@ -2,46 +2,52 @@ import React, { useContext } from "react";
 import "./NavBar.css";
 import { Link } from "@reach/router";
 import { UserContext } from "../../UserContext";
+import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import logo from "../../logo.png";
 
 const NavBar = () => {
   const { email, verified, handleLogin, handleLogout } =
     useContext(UserContext);
   return (
-    <div className="NavBar-container">
-      <div className="NavBar-linkContainer">
-        <img src={logo} alt="logo" className="NavBar-logo"></img>
-        <Link to="/" className="NavBar-link">
-          Mildred C. Hailey Organization
-        </Link>
-        <Link to="/about" className="NavBar-link">
-          About
-        </Link>
-        <Link to="/updates" className="NavBar-link">
-          Updates
-        </Link>
-        <Link to="/events" className="NavBar-link">
-          Events
-        </Link>
-        <Link to="/contact" className="NavBar-link">
-          Contact Us
-        </Link>
+    <Navbar className="fs-5 NavBar-container " bg="light" sticky="top">
+      <Container>
+        <Navbar.Brand href="/">
+          <img src={logo} className="NavBar-logo" alt="logo" />
+        </Navbar.Brand>
+
+        <Nav className="me-auto">
+          <Nav.Link className="px-1" href="/">
+            Mildred C. Hailey Organization
+          </Nav.Link>
+
+          <Nav.Link className="px-5" href="/about">
+            About
+          </Nav.Link>
+          <Nav.Link className="px-5" href="/updates">
+            Updates
+          </Nav.Link>
+          <Nav.Link className="px-5" href="/events">
+            Events
+          </Nav.Link>
+
+          {verified ? (
+            <Nav.Link className="px-5" href="/admin">
+              Admin Page
+            </Nav.Link>
+          ) : null}
+        </Nav>
+
         {verified ? (
-          <Link to="/admin" className="NavBar-link">
-            Admin Page
-          </Link>
-        ) : null}
-        {verified ? (
-          <button onClick={handleLogout} className="NavBar-link">
+          <Button variant="outline-secondary" onClick={handleLogout}>
             Logout
-          </button>
+          </Button>
         ) : (
-          <button onClick={handleLogin} className="NavBar-link">
-            Login
-          </button>
+          <Button variant="outline-secondary" onClick={handleLogin}>
+            Admin Login
+          </Button>
         )}
-      </div>
-    </div>
+      </Container>
+    </Navbar>
   );
 };
 
