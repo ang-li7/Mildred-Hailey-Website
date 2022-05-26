@@ -5,16 +5,16 @@
   padding: 0;
   flex-direction: row;
   justify-content: space-around;
-  flex-wrap: nowrap; /* assumes you only want one row */
+  text-align: center;
+  flex-wrap: wrap; /* assumes you only want one row */
 }
 
 .NavBar-logo {
-  height: 8vh;
-  width: 6vw;
+  height: 6em;
 }
 
 .NavBar-linkContainer {
-  margin-left: 0.25vw;
+  margin-left: 0.25em;
   font-size: 1.5vh;
   display: flex;
   justify-content: space-between;
@@ -27,7 +27,7 @@
   opacity: 0.6;
   text-decoration: none;
   text-align: center;
-  margin: 0 2vw;
+  margin: 0 2em;
   justify-content: center;
 }
 

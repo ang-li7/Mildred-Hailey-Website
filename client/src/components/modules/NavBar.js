@@ -2,15 +2,15 @@ import React, { useContext } from "react";
 import "./NavBar.css";
 import { Link } from "@reach/router";
 import { UserContext } from "../../UserContext";
-import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { Navbar, Nav, Button, Container, Offcanvas } from "react-bootstrap";
 import logo from "../../logo.png";
 
 const NavBar = () => {
   const { email, verified, handleLogin, handleLogout } =
     useContext(UserContext);
   return (
-    <Navbar className="fs-5 NavBar-container " bg="light" sticky="top">
-      <Container>
+    <Navbar className="fs-5 " bg="light" sticky="top" expand="xl">
+      <Container className="NavBar-container">
         <Navbar.Brand href="/">
           <img src={logo} className="NavBar-logo" alt="logo" />
         </Navbar.Brand>
@@ -40,11 +40,19 @@ const NavBar = () => {
         </Nav>
 
         {verified ? (
-          <Button variant="outline-secondary" onClick={handleLogout}>
+          <Button
+            className="NavBar-link"
+            variant="outline-secondary"
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         ) : (
-          <Button variant="outline-secondary" onClick={handleLogin}>
+          <Button
+            className="NavBar-link"
+            variant="outline-secondary"
+            onClick={handleLogin}
+          >
             Admin Login
           </Button>
         )}

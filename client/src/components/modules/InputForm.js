@@ -18,8 +18,18 @@ const InputForm = ({ type }) => {
     setState(event.target.value);
   };
 
+  const checkImage = (file) => {
+    if (
+      file.size < 10000000 &&
+      (file.type === "image/jpeg" || file.type === "image/png")
+    ) {
+      setPhoto(file);
+    } else {
+      alert("Image must be a JPEG or PNG and must be less than 10MB in size");
+    }
+  };
+
   const postInfo = (event) => {
-    event.preventDefault();
     const data = new FormData();
     data.append("title", title);
     data.append("date", date);
@@ -30,7 +40,7 @@ const InputForm = ({ type }) => {
     fetch(`/api/${type}`, {
       method: "POST",
       body: data,
-    });
+    }).then((resp) => {});
   };
 
   return (
@@ -56,11 +66,9 @@ const InputForm = ({ type }) => {
               <Form.Label>Picture</Form.Label>
               <Form.Control
                 type="file"
-                onInput={(event) => setPhoto(event.target.files[0])}
+                onInput={(event) => checkImage(event.target.files[0])}
               />
-              <Button type="submit" onClick={postInfo}>
-                Submit
-              </Button>
+              <Button onClick={postInfo}>Submit</Button>
             </Form.Group>
           </Col>
           <Col>

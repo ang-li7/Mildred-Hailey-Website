@@ -46,25 +46,35 @@ router.post("/events", upload.single("photo"), (req, res) => {
   Admin.exists({ email: req.body.admin }) //verify admin is making request
     .then((bool) => {
       if (bool) {
-        const blob = bucket.file(`${uuidv4()}-${req.file.originalname}`);
-        const blobStream = blob.createWriteStream();
-        blobStream.on("error", (err) => {
-          console.log(err);
-        });
-        blobStream.on("finish", () => {
-          const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-          Event.create({
-            title: req.body.title,
-            date: req.body.date,
-            location: req.body.location,
-            description: req.body.description,
-            email: req.body.admin,
-            photoUrl: publicUrl,
-          }).then((event) => {
+        const data = {
+          title: req.body.title,
+          date: req.body.date,
+          location: req.body.location,
+          description: req.body.description,
+          email: req.body.admin,
+          photoUrl: "",
+        };
+        if (req.file) {
+          // if a file is included uploaded to google cloud
+          const blob = bucket.file(`${uuidv4()}-${req.file.originalname}`);
+          const blobStream = blob.createWriteStream();
+          blobStream.on("error", (err) => {
+            console.log(err);
+          });
+          blobStream.on("finish", () => {
+            data[
+              photoUrl
+            ] = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+            Event.create(data).then((event) => {
+              res.send(event);
+            });
+          });
+          blobStream.end(req.file.buffer);
+        } else {
+          Event.create(data).then((event) => {
             res.send(event);
           });
-        });
-        blobStream.end(req.file.buffer);
+        }
       } else {
         res.status(401).send("Unauthorized request");
       }
@@ -76,23 +86,32 @@ router.post("/updates", upload.single("photo"), (req, res) => {
   Admin.exists({ email: req.body.admin }) //verify admin is making request
     .then((bool) => {
       if (bool) {
-        const blob = bucket.file(`${uuidv4()}-${req.file.originalname}`);
-        const blobStream = blob.createWriteStream();
-        blobStream.on("error", (err) => {
-          console.log(err);
-        });
-        blobStream.on("finish", () => {
-          const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-          Update.create({
-            title: req.body.title,
-            description: req.body.description,
-            email: req.body.admin,
-            photoUrl: publicUrl,
-          }).then((update) => {
+        const data = {
+          title: req.body.title,
+          description: req.body.description,
+          email: req.body.admin,
+          photoUrl: "",
+        };
+        if (req.file) {
+          const blob = bucket.file(`${uuidv4()}-${req.file.originalname}`);
+          const blobStream = blob.createWriteStream();
+          blobStream.on("error", (err) => {
+            console.log(err);
+          });
+          blobStream.on("finish", () => {
+            data[
+              photoUrl
+            ] = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+            Update.create(data).then((update) => {
+              res.send(update);
+            });
+          });
+          blobStream.end(req.file.buffer);
+        } else {
+          Update.create(data).then((update) => {
             res.send(update);
           });
-        });
-        blobStream.end(req.file.buffer);
+        }
       } else {
         res.status(401).send("Unauthorized request");
       }
