@@ -17,7 +17,7 @@ const NavBar = () => {
 
         <Nav className="me-auto">
           <Link className="NavBar-link" to="/">
-            Mildred C. Hailey Organization
+            Mildred C. Hailey Tenant Organization
           </Link>
           <Link className="NavBar-link" to="/about">
             About

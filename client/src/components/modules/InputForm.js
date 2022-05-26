@@ -44,65 +44,70 @@ const InputForm = ({ type }) => {
   };
 
   return (
-    <Container>
+    <Container className="mx-auto">
       <Form>
-        <Row>
-          <Col xs={8}>
-            <Form.Group as={Col}>
-              <Form.Label>Title</Form.Label>
-              <Form.Control
-                onInput={(event) => handleChange(event, setTitle)}
-              />
-              <Form.Label>Location</Form.Label>
-              <Form.Control
-                onInput={(event) => handleChange(event, setLocation)}
-              />
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                onInput={(event) => handleChange(event, setDescription)}
-              />
-              <hr />
-              <Form.Label>Picture</Form.Label>
-              <Form.Control
-                type="file"
-                onInput={(event) => checkImage(event.target.files[0])}
-              />
-              <Button onClick={postInfo}>Submit</Button>
-            </Form.Group>
-          </Col>
-          <Col>
-            <Form.Label>Date and Time</Form.Label>
-            <Form.Control
-              onFocus={(event) => setShowCalendar(true)}
-              value={date.toLocaleString([], {
-                weekday: "long",
-                month: "numeric",
-                day: "numeric",
-                year: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-                hour12: true,
-              })}
-            />
-            {showCalendar ? (
-              <DatePicker
-                inline
-                selected={date}
-                onChange={(date) => {
-                  setDate(date);
-                  setShowCalendar(false);
-                }}
-                showTimeSelect
-                showTime={{ use12Hours: true, format: "hh:mm aa" }}
-                timeFormat="hh:mm aa"
-                timeIntervals={15}
-                timeCaption="Time"
-                dateFormat="MMMM d, yyyy h:mm aa"
-              />
+        <Col>
+          <Form.Group as={Col}>
+            <Form.Label>Title</Form.Label>
+            <Form.Control onInput={(event) => handleChange(event, setTitle)} />
+            {type === "Events" ? (
+              <>
+                <Form.Label>Date and Time</Form.Label>
+                <Form.Control
+                  onFocus={(event) => setShowCalendar(true)}
+                  value={date.toLocaleString([], {
+                    weekday: "long",
+                    month: "numeric",
+                    day: "numeric",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "numeric",
+                    hour12: true,
+                  })}
+                />
+                {showCalendar ? (
+                  <DatePicker
+                    inline
+                    selected={date}
+                    onChange={(date) => {
+                      setDate(date);
+                      setShowCalendar(false);
+                    }}
+                    showTimeSelect
+                    showTime={{ use12Hours: true, format: "hh:mm aa" }}
+                    timeFormat="hh:mm aa"
+                    timeIntervals={15}
+                    timeCaption="Time"
+                    dateFormat="MMMM d, yyyy h:mm aa"
+                  />
+                ) : null}
+              </>
             ) : null}
-          </Col>
-        </Row>
+
+            <Form.Label>Location</Form.Label>
+            <Form.Control
+              onInput={(event) => handleChange(event, setLocation)}
+            />
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              onInput={(event) => handleChange(event, setDescription)}
+            />
+            <Form.Label>Picture</Form.Label>
+            <Form.Control
+              type="file"
+              onInput={(event) => checkImage(event.target.files[0])}
+            />
+          </Form.Group>
+        </Col>
+
+        <hr />
+        <Button
+          className="shadow-none d-grid gap-2 col-6 mx-auto"
+          onClick={postInfo}
+        >
+          Submit
+        </Button>
       </Form>
     </Container>
   );
