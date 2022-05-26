@@ -7,6 +7,7 @@ const EventSchema = new mongoose.Schema(
     location: String,
     description: String,
     email: String,
+    photoUrl: String,
   },
   { timestamps: true }
 );

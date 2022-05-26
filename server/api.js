@@ -1,11 +1,24 @@
 const express = require("express");
+require("dotenv").config();
 const multer = require("multer");
 const router = express.Router();
 const Admin = require("./models/Admin");
 const Event = require("./models/Event");
 const Update = require("./models/Update");
+const { Storage } = require("@google-cloud/storage");
+const { v4: uuidv4 } = require("uuid"); // allows us to generate random id for cloud storage
 
 const upload = multer(); // use multer to parse multipart/form-data POST requests
+
+// initialize Google Cloud Storage bucket
+const storage = new Storage({
+  projectId: process.env.GCS_PROJECT_ID,
+  credentials: {
+    client_email: process.env.GCS_CLIENT_EMAIL,
+    private_key: process.env.GCS_PRIVATE_KEY,
+  },
+});
+const bucket = storage.bucket(process.env.GCS_BUCKET_NAME);
 
 router.get("/events", (req, res) => {
   Event.find()
@@ -33,15 +46,25 @@ router.post("/events", upload.single("photo"), (req, res) => {
   Admin.exists({ email: req.body.admin }) //verify admin is making request
     .then((bool) => {
       if (bool) {
-        Event.create({
-          title: req.body.title,
-          date: req.body.date,
-          location: req.body.location,
-          description: req.body.description,
-          email: req.body.admin,
-        }).then((event) => {
-          res.send(event);
+        const blob = bucket.file(`${uuidv4()}-${req.file.originalname}`);
+        const blobStream = blob.createWriteStream();
+        blobStream.on("error", (err) => {
+          console.log(err);
         });
+        blobStream.on("finish", () => {
+          const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+          Event.create({
+            title: req.body.title,
+            date: req.body.date,
+            location: req.body.location,
+            description: req.body.description,
+            email: req.body.admin,
+            photoUrl: publicUrl,
+          }).then((event) => {
+            res.send(event);
+          });
+        });
+        blobStream.end(req.file.buffer);
       } else {
         res.status(401).send("Unauthorized request");
       }
@@ -53,13 +76,23 @@ router.post("/updates", upload.single("photo"), (req, res) => {
   Admin.exists({ email: req.body.admin }) //verify admin is making request
     .then((bool) => {
       if (bool) {
-        Update.create({
-          title: req.body.title,
-          description: req.body.description,
-          email: req.body.admin,
-        }).then((update) => {
-          res.send(update);
+        const blob = bucket.file(`${uuidv4()}-${req.file.originalname}`);
+        const blobStream = blob.createWriteStream();
+        blobStream.on("error", (err) => {
+          console.log(err);
         });
+        blobStream.on("finish", () => {
+          const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+          Update.create({
+            title: req.body.title,
+            description: req.body.description,
+            email: req.body.admin,
+            photoUrl: publicUrl,
+          }).then((update) => {
+            res.send(update);
+          });
+        });
+        blobStream.end(req.file.buffer);
       } else {
         res.status(401).send("Unauthorized request");
       }

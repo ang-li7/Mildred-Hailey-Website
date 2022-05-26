@@ -9,7 +9,7 @@ const InputForm = ({ type }) => {
   const { email } = useContext(UserContext);
   const [showCalendar, setShowCalendar] = useState(false);
   const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
   const [location, setLocation] = useState("");
   const [description, setDescription] = useState("");
   const [photo, setPhoto] = useState(null);
@@ -22,7 +22,7 @@ const InputForm = ({ type }) => {
     event.preventDefault();
     const data = new FormData();
     data.append("title", title);
-    data.append("startDate", startDate);
+    data.append("date", date);
     data.append("location", location);
     data.append("description", description);
     data.append("admin", email);
@@ -67,7 +67,7 @@ const InputForm = ({ type }) => {
             <Form.Label>Date and Time</Form.Label>
             <Form.Control
               onFocus={(event) => setShowCalendar(true)}
-              value={startDate.toLocaleString([], {
+              value={date.toLocaleString([], {
                 weekday: "long",
                 month: "numeric",
                 day: "numeric",
@@ -80,9 +80,9 @@ const InputForm = ({ type }) => {
             {showCalendar ? (
               <DatePicker
                 inline
-                selected={startDate}
+                selected={date}
                 onChange={(date) => {
-                  setStartDate(date);
+                  setDate(date);
                   setShowCalendar(false);
                 }}
                 showTimeSelect

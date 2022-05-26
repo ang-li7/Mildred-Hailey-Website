@@ -10,29 +10,15 @@
 
 .NavBar-logo {
   height: 8vh;
-}
-
-.NavBar-title {
-  color: white;
-  font-size: 3.2vw;
-  font-weight: bold;
-  opacity: 1;
-  text-decoration: none;
-  text-align: center;
-
-  margin: 5px 20px 10px;
+  width: 6vw;
 }
 
 .NavBar-linkContainer {
   margin-left: 0.25vw;
-  font-size: 1.5vw;
+  font-size: 1.5vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.NavBar-logo {
-  width: 6vw;
 }
 
 .NavBar-link,
@@ -41,7 +27,7 @@
   opacity: 0.6;
   text-decoration: none;
   text-align: center;
-  margin: 0px 30px;
+  margin: 0 2vw;
   justify-content: center;
 }
 

@@ -13,21 +13,6 @@ mongoose.connect(mongoConnectionURL, () => {
   console.log("Connected to Mongo");
 });
 
-// Makes sure that POST request is made by an admin
-// app.use((req, res, next) => {
-//   if (req.method === "POST") {
-//     Admin.exists({ email: req.body.admin }).then((bool) => {
-//       if (bool) {
-//         next();
-//       } else {
-//         res.status(401).send("Unauthorized request");
-//       }
-//     });
-//   } else {
-//     next();
-//   }
-// });
-
 app.use("/api", api);
 
 const port = process.env.PORT || 5000;

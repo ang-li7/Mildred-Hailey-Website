@@ -5,6 +5,7 @@ const UpdateSchema = new mongoose.Schema(
     title: String,
     description: String,
     email: String,
+    photoUrl: String,
   },
   { timestamps: true }
 );

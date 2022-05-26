@@ -28,6 +28,9 @@ const NavBar = () => {
           <Link className="NavBar-link" to="/events">
             Events
           </Link>
+          <Link className="NavBar-link" to="/contact">
+            Contact Us
+          </Link>
 
           {verified ? (
             <Link className="NavBar-link" to="/admin">
